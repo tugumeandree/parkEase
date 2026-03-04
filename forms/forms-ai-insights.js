@@ -11,11 +11,13 @@
 
 import { getFormStorage } from '../storage.js';
 
+import { API_CONFIG } from '../config.js';
+
 // Store feedback in localStorage
 const FEEDBACK_KEY = 'ai-feedback';
 const API_KEY_STORAGE = 'ai-api-key';
 // Default API key for students (provided by instructor)
-const DEFAULT_API_KEY = 'YOUR_HUGGING_FACE_API_KEY_HERE';
+const DEFAULT_API_KEY = API_CONFIG.HUGGING_FACE_API_KEY;
 
 /**
  * Initialize AI insights handlers

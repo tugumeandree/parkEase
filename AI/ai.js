@@ -1,3 +1,5 @@
+import { API_CONFIG } from '../config.js';
+
 // Example ParkEase receipts data
 const receipts = [
   { receiptNo: "R001", vehiclePlate: "U1234", fee: 5000, timestamp: "2026-03-03 08:35" },
@@ -36,7 +38,7 @@ function queryHuggingFace(model, inputs) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": "Bearer YOUR_HUGGING_FACE_API_KEY_HERE" // replace with your actual Hugging Face API key
+      "Authorization": `Bearer ${API_CONFIG.HUGGING_FACE_API_KEY}`
     },
     body: JSON.stringify({ inputs })
   }).then(res => res.json());
