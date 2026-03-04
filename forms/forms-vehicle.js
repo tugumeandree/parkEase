@@ -30,6 +30,7 @@ import {
   revealPanel, 
   updateDashboards 
 } from '../tables/tables-index.js';
+import { populateReceiptPlatesLocal } from './forms-receipt.js';
 
 export function handleVehicleSubmit(event) {
   event.preventDefault();
@@ -81,6 +82,7 @@ export function handleVehicleSubmit(event) {
   showSuccess(messageId, MESSAGES.vehicle.success);
   
   // Refresh displays
+  populateReceiptPlatesLocal(); // Update receipt dropdown with new vehicle
   renderVehicleTable();
   revealPanel("vehicle-panel");
   updateDashboards();

@@ -24,6 +24,7 @@ import {
   revealPanel, 
   updateDashboards 
 } from '../tables/tables-index.js';
+import { populateReceiptPlatesLocal } from './forms-receipt.js';
 
 export function handleSignoutSubmit(event) {
   event.preventDefault();
@@ -65,6 +66,7 @@ export function handleSignoutSubmit(event) {
   showSuccess(messageId, MESSAGES.signout.success);
   
   // Refresh displays
+  populateReceiptPlatesLocal(); // Update receipt dropdown after sign-out
   renderSignoutTable();
   renderVehicleTable();
   revealPanel("signout-panel");

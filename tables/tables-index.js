@@ -41,6 +41,8 @@ import {
   clearReportSummary,
 } from './tables-report.js';
 import { initDataDashboardTable } from './tables-data-dashboard.js';
+import { populateReceiptPlatesLocal } from '../forms/forms-receipt.js';
+import { populateReceiptPlatesLocal } from '../forms/forms-receipt.js';
 
 // ===========================================
 // CLEAR DATA FUNCTIONS
@@ -56,6 +58,7 @@ function clearUsersData() {
 function clearVehiclesData() {
   storageApi.clearVehicles();
   renderVehicleTable();
+  populateReceiptPlatesLocal(); // Update receipt dropdown when vehicles cleared
   const callback = getVehicleClearCallback();
   if (callback) {
     callback();
