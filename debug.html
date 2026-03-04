@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - Storage Debug</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; margin-top: 0; }
+        h2 { color: #666; border-bottom: 2px solid #4caf50; padding-bottom: 10px; }
+        button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover { background: #45a049; }
+        button.danger { background: #f44336; }
+        button.danger:hover { background: #da190b; }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            max-height: 400px;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        .status.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .status.info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th { background: #f5f5f5; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 ParkEase Storage Debugger</h1>
+        <p>This tool helps diagnose localStorage issues.</p>
+
+        <h2>1. LocalStorage Test</h2>
+        <button onclick="testLocalStorage()">Test Basic localStorage</button>
+        <div id="test-result"></div>
+
+        <h2>2. Current ParkEase Data</h2>
+        <button onclick="viewAllData()">View All Data</button>
+        <button onclick="countData()">Count Records</button>
+        <div id="data-view"></div>
+
+        <h2>3. Test Data Operations</h2>
+        <button onclick="createTestUser()">Create Test User</button>
+        <button onclick="createTestVehicle()">Create Test Vehicle</button>
+        <button onclick="createTestReceipt()">Create Test Receipt</button>
+        <div id="test-operations"></div>
+
+        <h2>4. Storage Information</h2>
+        <button onclick="showStorageInfo()">Show Storage Info</button>
+        <div id="storage-info"></div>
+
+        <h2>5. Clear Data (Careful!)</h2>
+        <button class="danger" onclick="confirmClearAll()">Clear ALL ParkEase Data</button>
+        <div id="clear-result"></div>
+
+        <hr style="margin: 30px 0;">
+        <p><a href="index.html">← Back to ParkEase</a></p>
+    </div>
+
+    <script type="module">
+        import { storageApi } from './storage.js';
+
+        window.storageApi = storageApi;
+
+        window.testLocalStorage = function() {
+            const resultDiv = document.getElementById('test-result');
+            try {
+                const testKey = 'test-' + Date.now();
+                const testValue = { test: 'data', timestamp: Date.now() };
+                
+                // Write
+                localStorage.setItem(testKey, JSON.stringify(testValue));
+                
+                // Read
+                const retrieved = JSON.parse(localStorage.getItem(testKey));
+                
+                // Clean up
+                localStorage.removeItem(testKey);
+                
+                if (retrieved.test === 'data') {
+                    resultDiv.innerHTML = '<div class="status success">✅ localStorage is working correctly!</div>';
+                } else {
+                    resultDiv.innerHTML = '<div class="status error">❌ Data mismatch in localStorage</div>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="status error">❌ localStorage error: ${error.message}</div>`;
+            }
+        };
+
+        window.viewAllData = function() {
+            const dataDiv = document.getElementById('data-view');
+            const keys = [
+                'pe_users',
+                'pe_vehicles', 
+                'pe_receipts',
+                'pe_signouts',
+                'pe_tyre_services',
+                'pe_battery_records',
+                'pe_reports'
+            ];
+
+            let html = '';
+            keys.forEach(key => {
+                const data = localStorage.getItem(key);
+                if (data) {
+                    try {
+                        const parsed = JSON.parse(data);
+                        html += `<h3>${key} (${parsed.length} records)</h3>`;
+                        html += `<pre>${JSON.stringify(parsed, null, 2)}</pre>`;
+                    } catch (e) {
+                        html += `<h3>${key}</h3><div class="status error">Error parsing: ${e.message}</div>`;
+                    }
+                } else {
+                    html += `<h3>${key}</h3><p>No data stored</p>`;
+                }
+            });
+
+            dataDiv.innerHTML = html || '<p>No ParkEase data found in localStorage</p>';
+        };
+
+        window.countData = function() {
+            const dataDiv = document.getElementById('data-view');
+            const users = storageApi.getUsers();
+            const vehicles = storageApi.getVehicles();
+            const receipts = storageApi.getReceipts();
+            const signouts = storageApi.getSignouts();
+            const tyre = storageApi.getTyreServices();
+            const battery = storageApi.getBatteryRecords();
+            const reports = storageApi.getReports();
+
+            dataDiv.innerHTML = `
+                <div class="status info">
+                    <table>
+                        <tr><th>Data Type</th><th>Count</th></tr>
+                        <tr><td>Users</td><td>${users.length}</td></tr>
+                        <tr><td>Vehicles</td><td>${vehicles.length}</td></tr>
+                        <tr><td>Receipts</td><td>${receipts.length}</td></tr>
+                        <tr><td>Sign-outs</td><td>${signouts.length}</td></tr>
+                        <tr><td>Tyre Services</td><td>${tyre.length}</td></tr>
+                        <tr><td>Battery Services</td><td>${battery.length}</td></tr>
+                        <tr><td>Reports</td><td>${reports.length}</td></tr>
+                    </table>
+                </div>
+            `;
+        };
+
+        window.createTestUser = function() {
+            const resultDiv = document.getElementById('test-operations');
+            try {
+                const testUser = {
+                    id: 'TEST-USER-' + Date.now(),
+                    fullName: 'Test User',
+                    username: 'testuser' + Date.now(),
+                    email: 'test' + Date.now() + '@test.com',
+                    phone: '0700000000',
+                    role: 'User',
+                    password: 'Test123!',
+                    status: 'Active',
+                    createdAt: new Date().toISOString()
+                };
+                
+                storageApi.saveUser(testUser);
+                
+                // Verify it was saved
+                const users = storageApi.getUsers();
+                const found = users.find(u => u.id === testUser.id);
+                
+                if (found) {
+                    resultDiv.innerHTML = `<div class="status success">✅ Test user created successfully! (${users.length} total users)</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="status error">❌ User was not found after saving!</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+            }
+        };
+
+        window.createTestVehicle = function() {
+            const resultDiv = document.getElementById('test-operations');
+            try {
+                const testVehicle = {
+                    id: 'TEST-VEH-' + Date.now(),
+                    driverName: 'Test Driver',
+                    vehicleType: 'Sedan',
+                    plate: 'TEST' + Date.now(),
+                    arrivalTime: new Date().toISOString(),
+                    signedOut: false
+                };
+                
+                storageApi.addVehicle(testVehicle);
+                
+                const vehicles = storageApi.getVehicles();
+                const found = vehicles.find(v => v.id === testVehicle.id);
+                
+                if (found) {
+                    resultDiv.innerHTML = `<div class="status success">✅ Test vehicle created! (${vehicles.length} total vehicles)</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="status error">❌ Vehicle was not found after saving!</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+            }
+        };
+
+        window.createTestReceipt = function() {
+            const resultDiv = document.getElementById('test-operations');
+            try {
+                const testReceipt = {
+                    id: 'TEST-REC-' + Date.now(),
+                    receiptNumber: 'R-TEST-' + Date.now(),
+                    plateNumber: 'TEST123',
+                    fee: 5000,
+                    timestamp: new Date().toISOString()
+                };
+                
+                storageApi.saveReceipt(testReceipt);
+                
+                const receipts = storageApi.getReceipts();
+                const found = receipts.find(r => r.id === testReceipt.id);
+                
+                if (found) {
+                    resultDiv.innerHTML = `<div class="status success">✅ Test receipt created! (${receipts.length} total receipts)</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="status error">❌ Receipt was not found after saving!</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+            }
+        };
+
+        window.showStorageInfo = function() {
+            const infoDiv = document.getElementById('storage-info');
+            try {
+                const allKeys = Object.keys(localStorage);
+                const parkEaseKeys = allKeys.filter(k => k.startsWith('pe_'));
+                
+                let totalSize = 0;
+                allKeys.forEach(key => {
+                    const value = localStorage.getItem(key);
+                    totalSize += (key.length + value.length) * 2; // rough byte estimate
+                });
+
+                infoDiv.innerHTML = `
+                    <div class="status info">
+                        <table>
+                            <tr><th>Property</th><th>Value</th></tr>
+                            <tr><td>Total localStorage keys</td><td>${allKeys.length}</td></tr>
+                            <tr><td>ParkEase keys</td><td>${parkEaseKeys.length}</td></tr>
+                            <tr><td>Estimated size</td><td>${(totalSize / 1024).toFixed(2)} KB</td></tr>
+                            <tr><td>Current URL</td><td>${window.location.href}</td></tr>
+                            <tr><td>Protocol</td><td>${window.location.protocol}</td></tr>
+                        </table>
+                        <h4>All Keys:</h4>
+                        <pre>${allKeys.join('\n')}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                infoDiv.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+            }
+        };
+
+        window.confirmClearAll = function() {
+            if (confirm('⚠️ Are you SURE you want to delete ALL ParkEase data? This cannot be undone!')) {
+                const resultDiv = document.getElementById('clear-result');
+                try {
+                    storageApi.clearUsers();
+                    storageApi.clearVehicles();
+                    storageApi.clearReceipts();
+                    storageApi.clearSignouts();
+                    storageApi.clearTyreServices();
+                    storageApi.clearBatteryRecords();
+                    storageApi.clearReports();
+                    
+                    resultDiv.innerHTML = '<div class="status success">✅ All ParkEase data has been cleared</div>';
+                } catch (error) {
+                    resultDiv.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+                }
+            }
+        };
+
+        // Auto-run tests on load
+        window.addEventListener('load', () => {
+            testLocalStorage();
+            countData();
+            showStorageInfo();
+        });
+    </script>
+</body>
+</html>
