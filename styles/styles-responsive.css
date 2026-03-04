@@ -1,0 +1,33 @@
+/**
+ * ========================================
+ * STYLES - RESPONSIVE
+ * ========================================
+ * 
+ * Mobile and tablet-specific adjustments.
+ * Ensures layout works on all screen sizes.
+ * 
+ * TEACHING CONCEPT:
+ * Mobile-first: Start with mobile styles, then adjust for larger screens.
+ * Media queries: Apply conditional styles based on screen size.
+ */
+
+@media (max-width: 768px) {
+  /* Adjust header padding and spacing */
+  .site-header {
+    padding-bottom: 28px;
+  }
+
+  /* Make navigation buttons smaller on mobile */
+  .nav-btn {
+    font-size: 0.85rem;
+  }
+
+  /* Form buttons should be full width on mobile */
+  .form-actions {
+    align-items: stretch;
+  }
+
+  .primary-btn {
+    width: 100%;
+  }
+}

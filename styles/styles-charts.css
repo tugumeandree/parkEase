@@ -1,0 +1,34 @@
+/**
+ * ========================================
+ * STYLES - CHARTS
+ * ========================================
+ * 
+ * Styles for Chart.js visualizations.
+ * Responsive grid layout for multiple charts.
+ */
+
+.chart-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.chart-card {
+  border-radius: 14px;
+  border: 1px solid rgba(31, 28, 22, 0.1);
+  padding: 12px;
+  background: #fffefb;
+  min-height: 260px;
+}
+
+.chart-card h4 {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+}
+
+/* Canvas dimensions for chart visualization */
+.chart-card canvas {
+  width: 100%;
+  height: 220px;
+}

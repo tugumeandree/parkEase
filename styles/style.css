@@ -1,0 +1,44 @@
+/**
+ * ========================================
+ * STYLE.CSS - MASTER STYLESHEET
+ * ========================================
+ * 
+ * This file imports all organized CSS modules.
+ * Demonstrates the "barrel export" pattern for CSS.
+ * 
+ * ORGANIZATION:
+ * 1. styles-variables.css - Colors, spacing, design system
+ * 2. styles-layout.css - Page structure (header, main, footer)
+ * 3. styles-forms.css - Form elements and inputs
+ * 4. styles-tables.css - Data table display
+ * 5. styles-charts.css - Chart visualization containers
+ * 6. styles-dashboards.css - Dashboard metrics and summaries
+ * 7. styles-responsive.css - Mobile/tablet adjustments
+ * 
+ * TEACHING BENEFIT:
+ * Instead of one 414-line file:
+ *   - Hard to find specific styles
+ *   - Mixing concerns (forms + tables + dashboard)
+ *   - Team collisions if multiple developers edit
+ *   - Difficult to reuse styles in other projects
+ *
+ * With organized modules:
+ *   - Each CSS file has single responsibility
+ *   - Easy to locate and modify specific component styles
+ *   - Scales for team development
+ *   - Styles can be shared/reused
+ *
+ * IMPORT ORDER IS IMPORTANT:
+ * - Variables first (so all modules can use them)
+ * - Layout (structural foundation)
+ * - Component styles (forms, tables, charts, dashboards)
+ * - Responsive (overrides for mobile)
+ */
+
+@import url("./styles-variables.css");
+@import url("./styles-layout.css");
+@import url("./styles-forms.css");
+@import url("./styles-tables.css");
+@import url("./styles-charts.css");
+@import url("./styles-dashboards.css");
+@import url("./styles-responsive.css");

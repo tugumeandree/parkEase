@@ -1,0 +1,945 @@
+<!--
+  ========================================
+  ParkEase - Smart Parking Management System
+  ========================================
+  
+  OVERVIEW:
+  This is the main HTML file for the ParkEase application, a comprehensive
+  parking management system built with HTML, CSS, and JavaScript.
+  
+  FEATURES:
+  - User authentication (Sign Up, Login)
+  - Vehicle registration and tracking
+  - Parking receipt generation with automated fee calculation
+  - Vehicle sign-out system
+  - Ancillary services: Tyre clinic and Battery services
+  - User management for admin roles
+  - Daily reporting and analytics
+  - Live dashboards with role-based visibility
+  
+  ARCHITECTURE:
+  The site uses a single-page application (SPA) approach with multiple
+  form sections that toggle visibility. All data is stored in the browser
+  using localStorage, making it perfect for learning and demos.
+  
+  MAIN SECTIONS:
+  1. Header - Navigation and branding
+  2. Main content area - Form sections (one visible at a time)
+  3. Data panels - Tables and dashboards that appear after form submission
+  
+  Each form section includes:
+  - The form itself (for user input)
+  - A data panel (displays submitted data in table/chart format)
+  - Clear button (resets stored data for that section)
+  
+  FILE DEPENDENCIES:
+  - style.css: All styling and layout
+  - forms.js: Form validation logic and submission handlers
+  - tables.js: Table rendering and chart generation
+  - storage.js: localStorage wrapper for data persistence
+-->
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>ParkEase Forms</title>
+		<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='0.9em' font-size='56'%3E%F0%9F%85%BF%3C/text%3E%3C/svg%3E" />
+		<link rel="stylesheet" href="styles/style.css" />
+	</head>
+	<body>
+		<!-- Main header with branding and navigation -->
+		<header class="site-header">
+			<div class="brand">
+				<span class="brand-mark" aria-hidden="true">P</span>
+				<div>
+					<h1>ParkEase</h1>
+					<p>Smart parking services</p>
+				</div>
+			</div>
+			<nav class="site-nav" aria-label="Form navigation">
+				<button class="nav-btn is-active" type="button" data-target="signup">Sign Up</button>
+				<button class="nav-btn" type="button" data-target="login">Login</button>
+				<button class="nav-btn" type="button" data-target="vehicle-registration">Vehicle Registration</button>
+				<button class="nav-btn" type="button" data-target="parking-receipt">Parking Receipt</button>
+				<button class="nav-btn" type="button" data-target="vehicle-signout">Vehicle Sign-Out</button>
+				<button class="nav-btn" type="button" data-target="tyre-clinic">Tyre Clinic</button>
+				<button class="nav-btn" type="button" data-target="battery-service">Battery Hire/Sales</button>
+				<button class="nav-btn" type="button" data-target="user-management">User Management</button>
+				<button class="nav-btn" type="button" data-target="daily-report">Daily Report</button>
+				<button class="nav-btn" type="button" data-target="data-dashboard">Data Dashboard</button>
+				<button class="nav-btn" type="button" data-target="ai-insights">AI Insights</button>
+			</nav>
+		</header>
+
+		<main class="site-main">
+			<section class="form-section is-visible" id="signup" aria-labelledby="signup-title">
+				<div class="section-header">
+					<h2 id="signup-title">Sign-Up</h2>
+					<p>Create a ParkEase account for staff and attendants.</p>
+				</div>
+				<form id="signup-form" novalidate>
+					<div class="form-grid">
+						<div class="field">
+							<label for="signup-fullname">Full Name</label>
+							<input id="signup-fullname" name="fullName" type="text" placeholder="John Okello" required />
+						</div>
+						<div class="field">
+							<label for="signup-username">Username</label>
+							<input id="signup-username" name="username" type="text" placeholder="john.okello" required />
+						</div>
+						<div class="field">
+							<label for="signup-email">Email</label>
+							<input id="signup-email" name="email" type="email" placeholder="john@example.com" required />
+						</div>
+						<div class="field">
+							<label for="signup-phone">Phone Number</label>
+							<input id="signup-phone" name="phone" type="tel" placeholder="+2567XXXXXXXX" required />
+						</div>
+						<div class="field">
+							<label for="signup-role">Role</label>
+							<select id="signup-role" name="role" required>
+								<option value="">Select role</option>
+								<option value="Attendant">Attendant</option>
+								<option value="Manager">Manager</option>
+								<option value="Admin">Admin</option>
+							</select>
+						</div>
+						<div class="field">
+							<label for="signup-password">Password</label>
+							<input id="signup-password" name="password" type="password" required />
+						</div>
+						<div class="field">
+							<label for="signup-confirm">Confirm Password</label>
+							<input id="signup-confirm" name="confirmPassword" type="password" required />
+						</div>
+					</div>
+					<div class="form-actions">
+						<button class="primary-btn" type="submit">Create Account</button>
+						<span class="hint">Password must include uppercase, lowercase, number, and symbol.</span>
+					</div>
+					<div class="form-message" id="signup-message" role="status" aria-live="polite"></div>
+				</form>
+				<div class="data-panel" id="signup-panel" aria-live="polite" aria-hidden="true">
+					<div class="panel-header">
+						<div>
+							<h3>Registered Users</h3>
+							<p>Users created from the sign-up form.</p>
+						</div>
+						<button class="ghost-btn" type="button" id="clear-signup">Clear data</button>
+					</div>
+					<div class="table-wrap">
+						<table class="data-table" id="signup-table">
+							<caption>Sign-up users list</caption>
+							<thead>
+								<tr>
+									<th scope="col">Full Name</th>
+									<th scope="col">Username</th>
+									<th scope="col">Email</th>
+									<th scope="col">Role</th>
+									<th scope="col">Status</th>
+									<th scope="col">Created</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+
+			<section class="form-section" id="login" aria-labelledby="login-title">
+				<div class="section-header">
+					<h2 id="login-title">Login</h2>
+					<p>Secure access for registered ParkEase staff.</p>
+				</div>
+				<form id="login-form" novalidate>
+					<div class="form-grid">
+						<div class="field">
+							<label for="login-identity">Username or Email</label>
+							<input id="login-identity" name="identity" type="text" required />
+						</div>
+						<div class="field">
+							<label for="login-password">Password</label>
+							<input id="login-password" name="password" type="password" required />
+						</div>
+						<div class="field inline">
+							<input id="login-remember" name="remember" type="checkbox" />
+							<label for="login-remember">Remember me</label>
+						</div>
+					</div>
+					<div class="form-actions">
+						<button class="primary-btn" type="submit">Login</button>
+					</div>
+					<div class="form-message" id="login-message" role="status" aria-live="polite"></div>
+				</form>
+				<div class="data-panel dashboard-panel" id="login-panel" aria-live="polite" aria-hidden="true">
+					<div class="panel-header">
+						<h3>Role Dashboards</h3>
+						<p>Snapshots update when you submit related forms.</p>
+					</div>
+					<div class="dashboard-grid">
+						<section class="dash-card" id="attendant-dashboard" aria-labelledby="attendant-title">
+							<h4 id="attendant-title">Parking Attendant Dashboard</h4>
+							<div class="dash-metric">
+								<span>Active Vehicles</span>
+								<strong id="attendant-active">0</strong>
+							</div>
+							<div class="dash-metric">
+								<span>Receipts</span>
+								<strong id="attendant-receipts">0</strong>
+							</div>
+							<div class="dash-metric">
+								<span>Sign-Outs</span>
+								<strong id="attendant-signouts">0</strong>
+							</div>
+						</section>
+						<section class="dash-card" id="manager-dashboard" aria-labelledby="manager-title">
+							<h4 id="manager-title">Section Manager Dashboard</h4>
+							<div class="dash-metric">
+								<span>Tyre Services</span>
+								<strong id="manager-tyre">0</strong>
+							</div>
+							<div class="dash-metric">
+								<span>Battery Transactions</span>
+								<strong id="manager-battery">0</strong>
+							</div>
+							<div class="dash-metric">
+								<span>Service Revenue</span>
+								<strong id="manager-revenue">UGX 0</strong>
+							</div>
+						</section>
+						<section class="dash-card" id="admin-dashboard" aria-labelledby="admin-title">
+							<h4 id="admin-title">Admin Dashboard</h4>
+							<div class="dash-metric">
+								<span>Total Users</span>
+								<strong id="admin-users">0</strong>
+							</div>
+							<div class="dash-metric">
+								<span>Daily Reports</span>
+								<strong id="admin-reports">0</strong>
+							</div>
+							<div class="dash-metric">
+								<span>Overall Revenue</span>
+								<strong id="admin-revenue">UGX 0</strong>
+							</div>
+						</section>
+					</div>
+				</div>
+			</section>
+
+			<section class="form-section" id="vehicle-registration" aria-labelledby="vehicle-registration-title">
+				<div class="section-header">
+					<h2 id="vehicle-registration-title">Vehicle Registration</h2>
+					<p>Log a vehicle arrival before issuing a receipt.</p>
+				</div>
+				<form id="vehicle-form" novalidate>
+					<div class="form-grid">
+						<div class="field">
+							<label for="vehicle-driver">Driver Name</label>
+							<input id="vehicle-driver" name="driverName" type="text" required />
+						</div>
+						<div class="field">
+							<label for="vehicle-type">Vehicle Type</label>
+							<select id="vehicle-type" name="vehicleType" required>
+								<option value="">Select type</option>
+								<option value="Car">Car</option>
+								<option value="Boda">Boda-boda</option>
+								<option value="Truck">Truck</option>
+								<option value="Van">Van</option>
+							</select>
+						</div>
+						<div class="field">
+							<label for="vehicle-plate">Number Plate</label>
+							<input id="vehicle-plate" name="plate" type="text" placeholder="UAX123A" required />
+						</div>
+						<div class="field">
+							<label for="vehicle-model">Vehicle Model</label>
+							<input id="vehicle-model" name="model" type="text" required />
+						</div>
+						<div class="field">
+							<label for="vehicle-color">Color</label>
+							<input id="vehicle-color" name="color" type="text" required />
+						</div>
+						<div class="field">
+							<label for="vehicle-arrival">Arrival Date/Time</label>
+							<input id="vehicle-arrival" name="arrival" type="datetime-local" required />
+						</div>
+						<div class="field">
+							<label for="vehicle-phone">Phone Number</label>
+							<input id="vehicle-phone" name="phone" type="tel" placeholder="07XXXXXXXX" required />
+						</div>
+						<div class="field">
+							<label for="vehicle-nin">NIN (boda-boda only)</label>
+							<input id="vehicle-nin" name="nin" type="text" placeholder="CFXXXXXXX" />
+						</div>
+					</div>
+					<div class="form-actions">
+						<button class="primary-btn" type="submit">Register Vehicle</button>
+					</div>
+					<div class="form-message" id="vehicle-message" role="status" aria-live="polite"></div>
+				</form>
+				<div class="data-panel" id="vehicle-panel" aria-live="polite" aria-hidden="true">
+					<div class="panel-header">
+						<div>
+							<h3>Registered Vehicles</h3>
+							<p>All vehicles recorded from the registration form.</p>
+						</div>
+						<button class="ghost-btn" type="button" id="clear-vehicles">Clear data</button>
+					</div>
+					<div class="table-wrap">
+						<table class="data-table" id="vehicle-table">
+							<caption>Vehicle registration table</caption>
+							<thead>
+								<tr>
+									<th scope="col">Driver</th>
+									<th scope="col">Type</th>
+									<th scope="col">Plate</th>
+									<th scope="col">Model</th>
+									<th scope="col">Color</th>
+									<th scope="col">Arrival</th>
+									<th scope="col">Phone</th>
+									<th scope="col">NIN</th>
+									<th scope="col">Status</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div class="chart-grid" aria-label="Vehicle charts">
+						<div class="chart-card">
+							<h4>Vehicle Types</h4>
+							<canvas id="vehicle-type-chart" aria-label="Vehicle type distribution chart" role="img"></canvas>
+						</div>
+						<div class="chart-card">
+							<h4>Arrivals by Day</h4>
+							<canvas id="vehicle-arrivals-chart" aria-label="Vehicle arrivals by day chart" role="img"></canvas>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="form-section" id="parking-receipt" aria-labelledby="parking-receipt-title">
+				<div class="section-header">
+					<h2 id="parking-receipt-title">Parking Receipt</h2>
+					<p>Generate a receipt with an auto-numbered ticket.</p>
+				</div>
+				<form id="receipt-form" novalidate>
+					<div class="form-grid">
+						<div class="field">
+							<label for="receipt-number">Receipt Number</label>
+							<input id="receipt-number" name="receiptNumber" type="text" readonly />
+						</div>
+						<div class="field">
+							<label for="receipt-plate">Vehicle Plate</label>
+							<select id="receipt-plate" name="plate" required></select>
+						</div>
+						<div class="field">
+							<label for="receipt-arrival">Arrival Time</label>
+							<input id="receipt-arrival" name="arrival" type="text" readonly />
+						</div>
+						<div class="field">
+							<label for="receipt-departure">Departure Time</label>
+							<input id="receipt-departure" name="departure" type="datetime-local" required />
+						</div>
+						<div class="field">
+							<label for="receipt-fee">Calculated Fee (UGX)</label>
+							<input id="receipt-fee" name="fee" type="text" readonly />
+						</div>
+					</div>
+					<div class="form-actions">
+						<button class="primary-btn" type="submit">Generate Receipt</button>
+					</div>
+					<div class="form-message" id="receipt-message" role="status" aria-live="polite"></div>
+				</form>
+				<div class="data-panel" id="receipt-panel" aria-live="polite" aria-hidden="true">
+					<div class="panel-header">
+						<div>
+							<h3>Parking Receipts</h3>
+							<p>Receipts generated for parked vehicles.</p>
+						</div>
+						<button class="ghost-btn" type="button" id="clear-receipts">Clear data</button>
+					</div>
+					<div class="table-wrap">
+						<table class="data-table" id="receipt-table">
+							<caption>Parking receipts table</caption>
+							<thead>
+								<tr>
+									<th scope="col">Receipt</th>
+									<th scope="col">Plate</th>
+									<th scope="col">Type</th>
+									<th scope="col">Arrival</th>
+									<th scope="col">Departure</th>
+									<th scope="col">Hours</th>
+									<th scope="col">Fee</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div class="chart-grid" aria-label="Receipt charts">
+						<div class="chart-card">
+							<h4>Revenue Over Time</h4>
+							<canvas id="receipt-revenue-chart" aria-label="Receipt revenue over time chart" role="img"></canvas>
+						</div>
+						<div class="chart-card">
+							<h4>Fees by Vehicle Type</h4>
+							<canvas id="receipt-type-chart" aria-label="Receipt fees by vehicle type chart" role="img"></canvas>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="form-section" id="vehicle-signout" aria-labelledby="vehicle-signout-title">
+				<div class="section-header">
+					<h2 id="vehicle-signout-title">Vehicle Sign-Out</h2>
+					<p>Confirm vehicle release with receipt validation.</p>
+				</div>
+				<form id="signout-form" novalidate>
+					<div class="form-grid">
+						<div class="field">
+							<label for="signout-receiver">Receiver Name</label>
+							<input id="signout-receiver" name="receiverName" type="text" required />
+						</div>
+						<div class="field">
+							<label for="signout-receipt">Receipt Number</label>
+							<input id="signout-receipt" name="receiptNumber" type="text" required />
+						</div>
+						<div class="field">
+							<label for="signout-time">Date/Time</label>
+							<input id="signout-time" name="signoutTime" type="datetime-local" required />
+						</div>
+						<div class="field">
+							<label for="signout-phone">Phone Number</label>
+							<input id="signout-phone" name="phone" type="tel" required />
+						</div>
+						<div class="field">
+							<label for="signout-gender">Gender</label>
+							<select id="signout-gender" name="gender" required>
+								<option value="">Select gender</option>
+								<option value="Female">Female</option>
+								<option value="Male">Male</option>
+								<option value="Other">Other</option>
+							</select>
+						</div>
+						<div class="field">
+							<label for="signout-nin">NIN</label>
+							<input id="signout-nin" name="nin" type="text" required />
+						</div>
+					</div>
+					<div class="form-actions">
+						<button class="primary-btn" type="submit">Sign Out Vehicle</button>
+					</div>
+					<div class="form-message" id="signout-message" role="status" aria-live="polite"></div>
+				</form>
+				<div class="data-panel" id="signout-panel" aria-live="polite" aria-hidden="true">
+					<div class="panel-header">
+						<div>
+							<h3>Vehicle Sign-Outs</h3>
+							<p>Vehicles released after receipt validation.</p>
+						</div>
+						<button class="ghost-btn" type="button" id="clear-signouts">Clear data</button>
+					</div>
+					<div class="table-wrap">
+						<table class="data-table" id="signout-table">
+							<caption>Vehicle sign-out table</caption>
+							<thead>
+								<tr>
+									<th scope="col">Receipt</th>
+									<th scope="col">Plate</th>
+									<th scope="col">Receiver</th>
+									<th scope="col">Phone</th>
+									<th scope="col">Gender</th>
+									<th scope="col">NIN</th>
+									<th scope="col">Sign-Out Time</th>
+									<th scope="col">Fee</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div class="chart-grid" aria-label="Sign-out charts">
+						<div class="chart-card">
+							<h4>Departures per Day</h4>
+							<canvas id="signout-departures-chart" aria-label="Sign-out departures per day chart" role="img"></canvas>
+						</div>
+						<div class="chart-card">
+							<h4>Parking Duration</h4>
+							<canvas id="signout-duration-chart" aria-label="Parking duration histogram chart" role="img"></canvas>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="form-section" id="tyre-clinic" aria-labelledby="tyre-clinic-title">
+				<div class="section-header">
+					<h2 id="tyre-clinic-title">Tyre Clinic Service</h2>
+					<p>Track optional tyre services for vehicles.</p>
+				</div>
+				<form id="tyre-form" novalidate>
+					<div class="form-grid">
+						<div class="field">
+							<label for="tyre-plate">Vehicle Plate</label>
+							<input id="tyre-plate" name="plate" type="text" required />
+						</div>
+						<div class="field">
+							<label for="tyre-service">Service Type</label>
+							<select id="tyre-service" name="serviceType" required>
+								<option value="">Select service</option>
+								<option value="Pressure">Pressure</option>
+								<option value="Puncture">Puncture</option>
+								<option value="Valve">Valve</option>
+							</select>
+						</div>
+						<div class="field">
+							<label for="tyre-price">Price (UGX)</label>
+							<input id="tyre-price" name="price" type="text" readonly />
+						</div>
+						<div class="field">
+							<label for="tyre-time">Date/Time</label>
+							<input id="tyre-time" name="serviceTime" type="datetime-local" required />
+						</div>
+						<div class="field">
+							<label for="tyre-attendant">Attendant Name</label>
+							<input id="tyre-attendant" name="attendant" type="text" required />
+						</div>
+					</div>
+					<div class="form-actions">
+						<button class="primary-btn" type="submit">Save Tyre Service</button>
+					</div>
+					<div class="form-message" id="tyre-message" role="status" aria-live="polite"></div>
+				</form>
+				<div class="data-panel" id="tyre-panel" aria-live="polite" aria-hidden="true">
+					<div class="panel-header">
+						<div>
+							<h3>Tyre Clinic Services</h3>
+							<p>Logged tyre services and pricing.</p>
+						</div>
+						<button class="ghost-btn" type="button" id="clear-tyre">Clear data</button>
+					</div>
+					<div class="table-wrap">
+						<table class="data-table" id="tyre-table">
+							<caption>Tyre clinic service table</caption>
+							<thead>
+								<tr>
+									<th scope="col">Plate</th>
+									<th scope="col">Service</th>
+									<th scope="col">Price</th>
+									<th scope="col">Date/Time</th>
+									<th scope="col">Attendant</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div class="chart-grid" aria-label="Tyre clinic charts">
+						<div class="chart-card">
+							<h4>Service Types</h4>
+							<canvas id="tyre-type-chart" aria-label="Tyre service type chart" role="img"></canvas>
+						</div>
+						<div class="chart-card">
+							<h4>Revenue per Day</h4>
+							<canvas id="tyre-revenue-chart" aria-label="Tyre revenue per day chart" role="img"></canvas>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="form-section" id="battery-service" aria-labelledby="battery-service-title">
+				<div class="section-header">
+					<h2 id="battery-service-title">Battery Hire/Sales</h2>
+					<p>Record battery hires or sales with pricing.</p>
+				</div>
+				<form id="battery-form" novalidate>
+					<div class="form-grid">
+						<div class="field">
+							<label for="battery-plate">Vehicle Plate</label>
+							<input id="battery-plate" name="plate" type="text" required />
+						</div>
+						<div class="field">
+							<label for="battery-transaction">Transaction Type</label>
+							<select id="battery-transaction" name="transactionType" required>
+								<option value="">Select type</option>
+								<option value="Hire">Hire</option>
+								<option value="Sale">Sale</option>
+							</select>
+						</div>
+						<div class="field">
+							<label for="battery-model">Battery Model/Size</label>
+							<input id="battery-model" name="model" type="text" required />
+						</div>
+						<div class="field">
+							<label for="battery-price">Price (UGX)</label>
+							<input id="battery-price" name="price" type="number" min="0" step="500" required />
+						</div>
+						<div class="field">
+							<label for="battery-time">Date/Time</label>
+							<input id="battery-time" name="serviceTime" type="datetime-local" required />
+						</div>
+						<div class="field">
+							<label for="battery-customer">Customer Name</label>
+							<input id="battery-customer" name="customer" type="text" required />
+						</div>
+					</div>
+					<div class="form-actions">
+						<button class="primary-btn" type="submit">Save Battery Record</button>
+					</div>
+					<div class="form-message" id="battery-message" role="status" aria-live="polite"></div>
+				</form>
+				<div class="data-panel" id="battery-panel" aria-live="polite" aria-hidden="true">
+					<div class="panel-header">
+						<div>
+							<h3>Battery Transactions</h3>
+							<p>Battery hire and sales records.</p>
+						</div>
+						<button class="ghost-btn" type="button" id="clear-battery">Clear data</button>
+					</div>
+					<div class="table-wrap">
+						<table class="data-table" id="battery-table">
+							<caption>Battery hire and sales table</caption>
+							<thead>
+								<tr>
+									<th scope="col">Plate</th>
+									<th scope="col">Type</th>
+									<th scope="col">Model</th>
+									<th scope="col">Price</th>
+									<th scope="col">Date/Time</th>
+									<th scope="col">Customer</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div class="chart-grid" aria-label="Battery charts">
+						<div class="chart-card">
+							<h4>Hire vs Sale</h4>
+							<canvas id="battery-type-chart" aria-label="Battery hire vs sale chart" role="img"></canvas>
+						</div>
+						<div class="chart-card">
+							<h4>Revenue Over Time</h4>
+							<canvas id="battery-revenue-chart" aria-label="Battery revenue over time chart" role="img"></canvas>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="form-section" id="user-management" aria-labelledby="user-management-title">
+				<div class="section-header">
+					<h2 id="user-management-title">User Management (Admin)</h2>
+					<p>Create and manage staff accounts with roles.</p>
+				</div>
+				<form id="user-management-form" novalidate>
+					<div class="form-grid">
+						<div class="field">
+							<label for="user-management-username">Username</label>
+							<input id="user-management-username" name="username" type="text" required />
+						</div>
+						<div class="field">
+							<label for="user-management-role">Role</label>
+							<select id="user-management-role" name="role" required>
+								<option value="">Select role</option>
+								<option value="Attendant">Attendant</option>
+								<option value="Manager">Manager</option>
+								<option value="Admin">Admin</option>
+							</select>
+						</div>
+						<div class="field">
+							<label for="user-management-email">Email</label>
+							<input id="user-management-email" name="email" type="email" required />
+						</div>
+						<div class="field">
+							<label for="user-management-password">Password</label>
+							<input id="user-management-password" name="password" type="password" required />
+						</div>
+						<div class="field">
+							<label for="user-management-status">Status</label>
+							<select id="user-management-status" name="status" required>
+								<option value="">Select status</option>
+								<option value="Active">Active</option>
+								<option value="Inactive">Inactive</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-actions">
+						<button class="primary-btn" type="submit">Add User</button>
+					</div>
+					<div class="form-message" id="user-management-message" role="status" aria-live="polite"></div>
+				</form>
+				<div class="data-panel" id="user-panel" aria-live="polite" aria-hidden="true">
+					<div class="panel-header">
+						<div>
+							<h3>User Directory</h3>
+							<p>All users created by admins and sign-up form.</p>
+						</div>
+						<button class="ghost-btn" type="button" id="clear-users">Clear data</button>
+					</div>
+					<div class="table-wrap">
+						<table class="data-table" id="user-table">
+							<caption>User management table</caption>
+							<thead>
+								<tr>
+									<th scope="col">Full Name</th>
+									<th scope="col">Username</th>
+									<th scope="col">Email</th>
+									<th scope="col">Role</th>
+									<th scope="col">Status</th>
+									<th scope="col">Created</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div class="chart-grid" aria-label="User management charts">
+						<div class="chart-card">
+							<h4>User Roles</h4>
+							<canvas id="user-role-chart" aria-label="User roles chart" role="img"></canvas>
+						</div>
+						<div class="chart-card">
+							<h4>Active vs Inactive</h4>
+							<canvas id="user-status-chart" aria-label="User status chart" role="img"></canvas>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="form-section" id="daily-report" aria-labelledby="daily-report-title">
+				<div class="section-header">
+					<h2 id="daily-report-title">Daily Report</h2>
+					<p>Generate section reports and revenue summary.</p>
+				</div>
+				<form id="report-form" novalidate>
+					<div class="form-grid">
+						<div class="field">
+							<label for="report-date">Date</label>
+							<input id="report-date" name="reportDate" type="date" required />
+						</div>
+						<div class="field">
+							<label for="report-section">Section</label>
+							<select id="report-section" name="section" required>
+								<option value="">Select section</option>
+								<option value="Parking">Parking</option>
+								<option value="Tyre">Tyre</option>
+								<option value="Battery">Battery</option>
+								<option value="All">All</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-actions">
+						<button class="primary-btn" type="submit">Generate Report</button>
+					</div>
+					<div class="form-message" id="report-message" role="status" aria-live="polite"></div>
+				</form>
+				<div class="data-panel" id="report-panel" aria-live="polite" aria-hidden="true">
+					<div class="panel-header">
+						<div>
+							<h3>Daily Reports</h3>
+							<p>Generated report summaries with revenue totals.</p>
+						</div>
+						<button class="ghost-btn" type="button" id="clear-reports">Clear data</button>
+					</div>
+					<div class="table-wrap">
+						<table class="data-table" id="report-table">
+							<caption>Daily report table</caption>
+							<thead>
+								<tr>
+									<th scope="col">Date</th>
+									<th scope="col">Section</th>
+									<th scope="col">Parking UGX</th>
+									<th scope="col">Tyre UGX</th>
+									<th scope="col">Battery UGX</th>
+									<th scope="col">Total UGX</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div class="chart-grid" aria-label="Report charts">
+						<div class="chart-card">
+							<h4>Section Activity</h4>
+							<canvas id="report-section-chart" aria-label="Report section activity chart" role="img"></canvas>
+						</div>
+						<div class="chart-card">
+							<h4>Total Revenue</h4>
+							<canvas id="report-revenue-chart" aria-label="Report revenue trend chart" role="img"></canvas>
+						</div>
+					</div>
+					<div class="report-summary" id="report-summary"></div>
+				</div>
+			</section>
+
+			<section class="form-section" id="data-dashboard" aria-labelledby="data-dashboard-title">
+				<div class="section-header">
+					<h2 id="data-dashboard-title">Data Dashboard</h2>
+					<p>Comprehensive visualization of all stored ParkEase data.</p>
+				</div>
+				<div class="data-panel" id="dashboard-panel" aria-live="polite">
+					<div class="panel-header">
+						<div>
+							<h3>All System Data</h3>
+							<p>Charts and tables showing all data from localStorage.</p>
+						</div>
+						<button class="ghost-btn" type="button" id="refresh-dashboard">Refresh Data</button>
+					</div>
+
+					<h4>Users Overview</h4>
+					<div class="table-wrap">
+						<table class="data-table" id="dashboard-users-table">
+							<caption>All registered users</caption>
+							<thead>
+								<tr>
+									<th scope="col">Full Name</th>
+									<th scope="col">Username</th>
+									<th scope="col">Email</th>
+									<th scope="col">Phone</th>
+									<th scope="col">Role</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div class="chart-grid">
+						<div class="chart-card">
+							<h4>Users by Role</h4>
+							<canvas id="dashboard-users-chart" aria-label="Users by role pie chart" role="img"></canvas>
+						</div>
+					</div>
+
+					<h4>Vehicles Overview</h4>
+					<div class="table-wrap">
+						<table class="data-table" id="dashboard-vehicles-table">
+							<caption>All registered vehicles</caption>
+							<thead>
+								<tr>
+									<th scope="col">Driver Name</th>
+									<th scope="col">Vehicle Type</th>
+									<th scope="col">Number Plate</th>
+									<th scope="col">Arrival Time</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div class="chart-grid">
+						<div class="chart-card">
+							<h4>Vehicle Types</h4>
+							<canvas id="dashboard-vehicles-chart" aria-label="Vehicle types bar chart" role="img"></canvas>
+						</div>
+					</div>
+
+					<h4>Receipts Overview</h4>
+					<div class="table-wrap">
+						<table class="data-table" id="dashboard-receipts-table">
+							<caption>All parking receipts</caption>
+							<thead>
+								<tr>
+									<th scope="col">Receipt No</th>
+									<th scope="col">Vehicle Plate</th>
+									<th scope="col">Fee</th>
+									<th scope="col">Timestamp</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div class="chart-grid">
+						<div class="chart-card">
+							<h4>Parking Fees Trend</h4>
+							<canvas id="dashboard-receipts-chart" aria-label="Parking fees line chart" role="img"></canvas>
+						</div>
+					</div>
+
+					<h4>Revenue Summary</h4>
+					<div class="dashboard-grid">
+						<section class="dash-card">
+							<h4>Total Parking Revenue</h4>
+							<div class="dash-metric">
+								<strong id="dashboard-parking-revenue">UGX 0</strong>
+							</div>
+						</section>
+						<section class="dash-card">
+							<h4>Total Tyre Revenue</h4>
+							<div class="dash-metric">
+								<strong id="dashboard-tyre-revenue">UGX 0</strong>
+							</div>
+						</section>
+						<section class="dash-card">
+							<h4>Total Battery Revenue</h4>
+							<div class="dash-metric">
+								<strong id="dashboard-battery-revenue">UGX 0</strong>
+							</div>
+						</section>
+					</div>
+				</div>
+			</section>
+
+			<section class="form-section" id="ai-insights" aria-labelledby="ai-insights-title">
+				<div class="section-header">
+					<h2 id="ai-insights-title">AI Insights</h2>
+					<p>AI-powered analysis and predictions using Hugging Face models.</p>
+				</div>
+				<div class="data-panel" id="ai-panel" aria-live="polite">
+					<div class="panel-header">
+						<div>
+							<h3>AI Features</h3>
+							<p>Intelligent insights from your parking data.</p>
+						</div>
+					</div>
+
+					<h4>Receipt Summarization</h4>
+					<p>Generate AI-powered summaries of receipt data.</p>
+					<button class="primary-btn" type="button" id="ai-summarize-btn">Summarize Receipts with AI</button>
+					<div class="form-message" id="ai-summary-result"></div>
+					<div class="chart-grid">
+						<div class="chart-card">
+							<h4>Receipt Fees Visualization</h4>
+							<canvas id="ai-receipts-chart" aria-label="Receipt fees bar chart" role="img"></canvas>
+						</div>
+					</div>
+
+					<h4>Feedback Sentiment Analysis</h4>
+					<p>Analyze customer feedback sentiment (add feedback in User Management).</p>
+					<div class="field">
+						<label for="ai-feedback-input">Add Customer Feedback</label>
+						<textarea id="ai-feedback-input" rows="3" placeholder="Enter customer feedback here..."></textarea>
+					</div>
+					<button class="primary-btn" type="button" id="ai-add-feedback-btn">Add Feedback</button>
+					<ul id="ai-feedback-list"></ul>
+					<button class="primary-btn" type="button" id="ai-sentiment-btn">Analyze Sentiment</button>
+					<div class="form-message" id="ai-sentiment-result"></div>
+					<div class="chart-grid">
+						<div class="chart-card">
+							<h4>Sentiment Distribution</h4>
+							<canvas id="ai-sentiment-chart" aria-label="Sentiment analysis pie chart" role="img"></canvas>
+						</div>
+					</div>
+
+					<h4>Vehicle Type Classification</h4>
+					<p>Use AI to classify vehicles based on descriptions.</p>
+					<div class="field">
+						<label for="ai-vehicle-input">Vehicle Description</label>
+						<input id="ai-vehicle-input" type="text" placeholder="E.g., 'A small red two-door sedan'">
+					</div>
+					<button class="primary-btn" type="button" id="ai-classify-btn">Classify Vehicle Type</button>
+					<div class="form-message" id="ai-vehicle-result"></div>
+
+					<h4>API Configuration</h4>
+					<p><strong>Note:</strong> A default API key is pre-configured for this course. You can use it immediately or replace it with your own.</p>
+					<div class="field">
+						<label for="ai-api-key">Hugging Face API Key</label>
+						<input id="ai-api-key" type="password" placeholder="API key is pre-configured">
+					</div>
+					<button class="ghost-btn" type="button" id="ai-save-key-btn">Save API Key</button>
+					<p><small>Want your own key? Get one free at <a href="https://huggingface.co/settings/tokens" target="_blank">huggingface.co/settings/tokens</a></small></p>
+				</div>
+			</section>
+		</main>
+
+		<footer class="site-footer">
+			<p>ParkEase - secure parking operations and services.</p>
+		</footer>
+
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.min.js"></script>
+	<script type="module" src="index.js?v=20260303"></script>
+	</body>
+</html>

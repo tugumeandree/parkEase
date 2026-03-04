@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ParkEase Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 30px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f4f4f4; }
+    h2 { margin-top: 40px; }
+    canvas { margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <h1>ParkEase Mock Server Data Demo</h1>
+
+  <h2>Users</h2>
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Username</th><th>Email</th><th>Phone</th><th>Role</th></tr>
+    </thead>
+    <tbody id="usersTableBody"></tbody>
+  </table>
+  <canvas id="usersChart"></canvas>
+
+  <h2>Vehicles</h2>
+  <table>
+    <thead>
+      <tr><th>Driver</th><th>Type</th><th>Plate</th><th>Arrival</th></tr>
+    </thead>
+    <tbody id="vehiclesTableBody"></tbody>
+  </table>
+  <canvas id="vehiclesChart"></canvas>
+
+  <h2>Receipts</h2>
+  <table>
+    <thead>
+      <tr><th>Receipt No</th><th>Plate</th><th>Fee</th><th>Timestamp</th></tr>
+    </thead>
+    <tbody id="receiptsTableBody"></tbody>
+  </table>
+  <canvas id="receiptsChart"></canvas>
+
+  <h2>Sign-Outs</h2>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Plate</th><th>Receiver</th><th>Exit Time</th></tr>
+    </thead>
+    <tbody id="signoutsTableBody"></tbody>
+  </table>
+
+  <h2>Tyre Services</h2>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Plate</th><th>Service</th><th>Price</th><th>Attendant</th><th>Time</th></tr>
+    </thead>
+    <tbody id="tyreTableBody"></tbody>
+  </table>
+  <canvas id="tyreChart"></canvas>
+
+  <h2>Battery Records</h2>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Type</th><th>Model</th><th>Price</th><th>Customer</th><th>Time</th></tr>
+    </thead>
+    <tbody id="batteryTableBody"></tbody>
+  </table>
+  <canvas id="batteryChart"></canvas>
+
+  <h2>Daily Report</h2>
+  <div id="reportSummary"></div>
+  <canvas id="reportChart"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

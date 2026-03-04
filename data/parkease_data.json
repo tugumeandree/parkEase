@@ -1,0 +1,40 @@
+{
+  "users": [
+    { "fullName": "Alice Smith", "username": "alice", "email": "alice@example.com", "phone": "+256700111222", "role": "Attendant" },
+    { "fullName": "Bob Jones", "username": "bob", "email": "bob@example.com", "phone": "+256700333444", "role": "Manager" },
+    { "fullName": "Carol White", "username": "carol", "email": "carol@example.com", "phone": "+256700555666", "role": "Admin" }
+  ],
+  "vehicles": [
+    { "driverName": "John Doe", "vehicleType": "Taxi", "numberPlate": "U1234", "arrivalTime": "2026-03-03 08:30" },
+    { "driverName": "Mary Jane", "vehicleType": "Truck", "numberPlate": "U5678", "arrivalTime": "2026-03-03 08:45" },
+    { "driverName": "Peter Okello", "vehicleType": "Boda-boda", "numberPlate": "UBX999", "arrivalTime": "2026-03-03 09:00" }
+  ],
+  "receipts": [
+    { "receiptNo": "R001", "vehiclePlate": "U1234", "fee": 5000, "timestamp": "2026-03-03 08:35" },
+    { "receiptNo": "R002", "vehiclePlate": "U5678", "fee": 8000, "timestamp": "2026-03-03 08:50" },
+    { "receiptNo": "R003", "vehiclePlate": "UBX999", "fee": 2000, "timestamp": "2026-03-03 09:05" }
+  ],
+  "signouts": [
+    { "signoutId": "S001", "vehiclePlate": "U1234", "receiverName": "Attendant Alice", "exitTime": "2026-03-03 10:00" },
+    { "signoutId": "S002", "vehiclePlate": "U5678", "receiverName": "Attendant Alice", "exitTime": "2026-03-03 10:30" }
+  ],
+  "tyre_services": [
+    { "serviceId": "T001", "vehiclePlate": "U1234", "serviceType": "Pressure Check", "price": 1000, "attendant": "Bob Jones", "timestamp": "2026-03-03 08:40" },
+    { "serviceId": "T002", "vehiclePlate": "UBX999", "serviceType": "Puncture Repair", "price": 3000, "attendant": "Bob Jones", "timestamp": "2026-03-03 09:10" }
+  ],
+  "battery_records": [
+    { "transactionId": "B001", "transactionType": "Hire", "batteryModel": "Exide 12V", "price": 15000, "customerName": "Mary Jane", "timestamp": "2026-03-03 09:20" },
+    { "transactionId": "B002", "transactionType": "Sale", "batteryModel": "Bosch 12V", "price": 25000, "customerName": "Peter Okello", "timestamp": "2026-03-03 09:30" }
+  ],
+  "reports": [
+    {
+      "reportDate": "2026-03-03",
+      "totalVehicles": 3,
+      "signedOutVehicles": 2,
+      "parkingRevenue": 15000,
+      "tyreRevenue": 4000,
+      "batteryRevenue": 40000,
+      "totalRevenue": 59000
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+/**
+ * ========================================
+ * STYLES - LAYOUT
+ * ========================================
+ * 
+ * Page-level layout structure:
+ * - header (navigation and branding)
+ * - main (content area)
+ * - footer
+ * 
+ * Uses CSS Grid for responsive, flexible layout
+ * Uses clamp() for fluid typography
+ */
+
+/* ========================================
+   HEADER & NAVIGATION
+   ======================================== */
+
+.site-header {
+  display: grid;
+  gap: 24px;
+  padding: 32px clamp(20px, 4vw, 64px) 20px;
+  background: linear-gradient(120deg, #1f1c16, #2b271f 65%, #3e362b 100%);
+  color: var(--cloud);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  letter-spacing: 0.04em;
+}
+
+.brand p {
+  margin: 6px 0 0;
+  color: rgba(253, 251, 247, 0.7);
+  font-size: 0.95rem;
+}
+
+.brand-mark {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--copper);
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+/* Navigation buttons - responsive grid */
+.site-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.nav-btn {
+  border: 1px solid rgba(253, 251, 247, 0.3);
+  background: transparent;
+  color: var(--cloud);
+  padding: 10px 12px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.nav-btn:hover,
+.nav-btn:focus-visible {
+  background: rgba(253, 251, 247, 0.2);
+  transform: translateY(-2px);
+}
+
+.nav-btn.is-active {
+  background: var(--copper);
+  border-color: var(--copper);
+  color: #2b271f;
+  font-weight: 600;
+}
+
+/* ========================================
+   MAIN CONTENT AREA
+   ======================================== */
+
+.site-main {
+  padding: 32px clamp(20px, 4vw, 64px) 60px;
+  display: grid;
+  gap: 28px;
+}
+
+.section-header {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.6vw, 1.8rem);
+}
+
+.section-header p {
+  margin: 0;
+  color: var(--slate);
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+.site-footer {
+  padding: 20px clamp(20px, 4vw, 64px) 40px;
+  color: rgba(31, 28, 22, 0.6);
+}

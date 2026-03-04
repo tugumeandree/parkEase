@@ -1,0 +1,42 @@
+/**
+ * ========================================
+ * STYLES - VARIABLES & RESETS
+ * ========================================
+ * 
+ * Defines all CSS custom properties (colors, spacing, shadows)
+ * and resets default browser styles.
+ * 
+ * TEACHING CONCEPT:
+ * CSS variables (custom properties) make the design system scalable.
+ * Change a color once, and it updates everywhere.
+ * 
+ * Future enhancement:
+ * Could create light/dark theme variants by changing --sand, --night, etc.
+ */
+
+:root {
+  /* Color Palette - Using earth tones for professional appearance */
+  --sand: #f4efe6;       /* Light background */
+  --night: #1f1c16;      /* Dark text */
+  --copper: #c16a2b;     /* Primary accent (orange-brown) */
+  --olive: #6f7b3a;      /* Secondary accent (green-brown) */
+  --cloud: #fdfbf7;      /* Very light background for contrast */
+  --slate: #544b42;      /* Medium gray for secondary text */
+  
+  /* Design System */
+  --stroke: rgba(31, 28, 22, 0.12);  /* Subtle borders */
+  --shadow: 0 24px 50px rgba(31, 28, 22, 0.12);  /* Elevation shadow */
+  --radius: 18px;        /* Standard border radius */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Merriweather", "Georgia", serif;
+  background: radial-gradient(circle at top left, #fff9ef, #efe6d8 50%, #e6dbc9 100%);
+  color: var(--night);
+  min-height: 100vh;
+}

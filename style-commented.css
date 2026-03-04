@@ -1,0 +1,520 @@
+/**
+ * ========================================
+ * STYLE.CSS - CSS Styling & Layout
+ * ========================================
+ * All visual styling for the ParkEase application.
+ * Uses CSS variables for consistent theming across the entire app.
+ * Responsive design adapts to mobile, tablet, and desktop screens.
+ * 
+ * DESIGN PHILOSOPHY:
+ * - Clean, professional aesthetic with earthy color palette
+ * - Smooth animations for better user experience
+ * - Accessible focus states for keyboard navigation
+ * - Mobile-first approach with media queries for larger screens
+ * 
+ * TO REBRAND: Just change the color variables in :root!
+ */
+
+/* ========================================
+   CSS VARIABLES - Design Tokens
+   ======================================== */
+/* These define all colors, spacing, and shadows used throughout the app.
+   Change these values to completely rebrand the application! */
+
+:root {
+  /* Color Palette - Earthy, professional, accessible */
+  --sand: #f4efe6;    /* Light backgrounds for content areas */
+  --night: #1f1c16;   /* Dark text and header backgrounds */
+  --copper: #c16a2b;  /* Primary accent color (logo, highlights) */
+  --olive: #6f7b3a;   /* Secondary accent color (buttons) */
+  --cloud: #fdfbf7;   /* Light text on dark backgrounds */
+  --slate: #544b42;   /* Secondary text for subtle information */
+  
+  /* Subtle effects - barely noticeable but professional */
+  --stroke: rgba(31, 28, 22, 0.12);  /* Subtle borders around elements */
+  --shadow: 0 24px 50px rgba(31, 28, 22, 0.12);  /* Soft drop shadow */
+  --radius: 18px;     /* Border radius for all rounded corners */
+}
+
+/* ========================================
+   GLOBAL STYLES - Reset & Base Elements
+   ======================================== */
+
+/* All elements: Use border-box sizing for easier width calculations */
+* {
+  box-sizing: border-box;
+}
+
+/* Body: Main page styling */
+body {
+  margin: 0;
+  font-family: "Merriweather", "Georgia", serif;  /* Classic, readable serif font */
+  /* Radial gradient background - lighter at top left, darker at bottom */
+  background: radial-gradient(circle at top left, #fff9ef, #efe6d8 50%, #e6dbc9 100%);
+  color: var(--night);  /* Dark text by default */
+  min-height: 100vh;    /* Full viewport height */
+}
+
+/* ========================================
+   HEADER & NAVIGATION
+   ======================================== */
+
+/* Header: Dark background with branding and navigation side-by-side */
+.site-header {
+  display: grid;  /* Two sections: brand (left) and nav (right) */
+  gap: 24px;
+  padding: 32px clamp(20px, 4vw, 64px) 20px;  /* Responsive padding */
+  background: linear-gradient(120deg, #1f1c16, #2b271f 65%, #3e362b 100%);  /* Dark gradient */
+  color: var(--cloud);  /* Light text on dark background */
+}
+
+/* Brand section: Logo + title */
+.brand {
+  display: flex;
+  align-items: center;  /* Vertically center content */
+  gap: 16px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);  /* Responsive: scales with viewport */
+  letter-spacing: 0.04em;  /* Slight character spacing */
+}
+
+.brand p {
+  margin: 6px 0 0;
+  color: rgba(253, 251, 247, 0.7);  /* Slightly transparent light text */
+  font-size: 0.95rem;
+}
+
+/* Logo mark: The circle with the "P" */
+.brand-mark {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;  /* Center content both horizontally and vertically */
+  border-radius: 14px;
+  background: var(--copper);  /* Primary accent color */
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+/* Navigation: Responsive grid of buttons */
+.site-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));  /* Auto-wrap on small screens */
+  gap: 12px;
+}
+
+/* Navigation button: Default state (transparent) */
+.nav-btn {
+  border: 1px solid rgba(253, 251, 247, 0.3);  /* Subtle light border */
+  background: transparent;  /* No background color */
+  color: var(--cloud);  /* Light text */
+  padding: 10px 12px;
+  border-radius: 999px;  /* Fully rounded (pill shape) */
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;  /* Smooth animations */
+}
+
+/* Navigation button: Hover & Focus state */
+.nav-btn:hover,
+.nav-btn:focus-visible {
+  background: rgba(253, 251, 247, 0.2);  /* Subtle highlight */
+  transform: translateY(-2px);  /* Lift effect on hover */
+}
+
+/* Navigation button: Active state (current page) */
+.nav-btn.is-active {
+  background: var(--copper);  /* Solid accent color */
+  border-color: var(--copper);
+  color: #2b271f;  /* Dark text on accent */
+  font-weight: 600;
+}
+
+/* ========================================
+   MAIN CONTENT AREA
+   ======================================== */
+
+.site-main {
+  padding: 32px clamp(20px, 4vw, 64px) 60px;
+  display: grid;
+  gap: 28px;
+}
+
+/* Form section: Appear/disappear with animation */
+.form-section {
+  background: var(--cloud);
+  border-radius: var(--radius);
+  padding: clamp(20px, 3vw, 32px);  /* Responsive padding */
+  box-shadow: var(--shadow);
+  border: 1px solid var(--stroke);
+  display: none;  /* Hidden by default */
+  opacity: 0;    /* Invisible (for fade transition) */
+  transform: translateY(20px);  /* Positioned below (for slide transition) */
+}
+
+/* Form section: When visible (JavaScript adds .is-visible class) */
+.form-section.is-visible {
+  display: block;        /* Show the section */
+  opacity: 1;            /* Fully visible */
+  transform: translateY(0);  /* Back in normal position */
+}
+
+/* Header above form: Title and description */
+.section-header {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.6vw, 1.8rem);  /* Responsive heading */
+}
+
+.section-header p {
+  margin: 0;
+  color: var(--slate);  /* Subtle secondary text */
+}
+
+/* ========================================
+   FORMS & INPUT FIELDS
+   ======================================== */
+
+/* Form grid: Responsive multi-column layout */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));  /* Auto-wrap on small screens */
+  gap: 16px;
+}
+
+/* Individual form field container */
+.field {
+  display: grid;  /* Stack label above input */
+  gap: 8px;
+}
+
+/* Inline field (like checkboxes) */
+.field.inline {
+  grid-column: 1 / -1;  /* Span full width */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Form labels */
+label {
+  font-weight: 600;
+  color: var(--night);
+}
+
+/* Input fields and select dropdowns */
+input,
+select {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  font-size: 0.95rem;
+  background: #fff;
+}
+
+/* Input focus state (when user clicks/tabs into field) */
+input:focus,
+select:focus {
+  outline: 2px solid rgba(193, 106, 43, 0.35);  /* Accent outline */
+  border-color: var(--copper);  /* Accent border color */
+}
+
+/* Form action buttons container */
+.form-actions {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;  /* Stack items vertically */
+  gap: 8px;
+}
+
+/* Primary submit button */
+.primary-btn {
+  align-self: flex-start;  /* Don't stretch full width */
+  border: none;
+  background: var(--olive);  /* Secondary accent color */
+  color: #fff;  /* White text */
+  padding: 12px 22px;
+  border-radius: 999px;  /* Pill shape */
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 12px 20px rgba(111, 123, 58, 0.2);  /* Subtle shadow under button */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Primary button: Hover & Focus state */
+.primary-btn:hover,
+.primary-btn:focus-visible {
+  transform: translateY(-2px) scale(1.01);  /* Lift and slightly grow */
+  box-shadow: 0 18px 24px rgba(111, 123, 58, 0.28);  /* Enhanced shadow */
+}
+
+/* Helper text hint (below buttons) */
+.hint {
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+/* Messages: Display validation errors and success messages */
+.form-message {
+  margin-top: 14px;
+  font-weight: 600;
+  min-height: 20px;  /* Reserve space to prevent layout shift */
+}
+
+/* Error message styling */
+.form-message.is-error {
+  color: #b23a3a;  /* Red for errors */
+}
+
+/* Success message styling */
+.form-message.is-success {
+  color: #2f6b36;  /* Green for success */
+}
+
+/* ========================================
+   DATA PANELS (Tables & Dashboards)
+   ======================================== */
+
+/* Data panel: Container for tables and charts */
+.data-panel {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(31, 28, 22, 0.12);
+  background: #fff;
+  display: none;     /* Hidden by default */
+  opacity: 0;        /* Invisible (for fade) */
+  transform: translateY(10px);  /* Below screen (for slide) */
+}
+
+/* Data panel: When visible */
+.data-panel.is-visible {
+  display: block;        /* Show it */
+  opacity: 1;            /* Fully visible */
+  transform: translateY(0);  /* Normal position */
+}
+
+/* Header for data panel (with title and clear button) */
+.panel-header {
+  display: flex;
+  flex-wrap: wrap;  /* Wrap on small screens */
+  justify-content: space-between;  /* Label left, button right */
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.panel-header h3 {
+  margin: 0;
+}
+
+.panel-header p {
+  margin: 0;
+  color: var(--slate);
+}
+
+/* Ghost button: Transparent button with outline only */
+.ghost-btn {
+  border: 1px solid rgba(31, 28, 22, 0.2);  /* Subtle border */
+  background: transparent;  /* No background */
+  color: var(--night);
+  padding: 8px 14px;
+  border-radius: 999px;  /* Pill shape */
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+/* Ghost button: Hover state */
+.ghost-btn:hover,
+.ghost-btn:focus-visible {
+  background: #f6efe4;  /* Light background appear on hover */
+  transform: translateY(-1px);  /* Subtle lift */
+}
+
+/* Table wrapper: Allows horizontal scroll on small screens */
+.table-wrap {
+  overflow-x: auto;
+}
+
+/* Data table: Display list of records */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;  /* No space between cell borders */
+  min-width: 640px;  /* Minimum width for readability */
+}
+
+/* Table caption: Accessible table title */
+.data-table caption {
+  text-align: left;
+  padding-bottom: 8px;
+  font-weight: 600;
+}
+
+/* Table cells: Headers and data */
+.data-table th,
+.data-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(31, 28, 22, 0.08);  /* Subtle row dividers */
+  font-size: 0.92rem;
+}
+
+/* Table header: Dark background for visual hierarchy */
+.data-table thead th {
+  background: #f7f1e7;  /* Light but darker than body */
+  color: #3a3229;  /* Dark text */
+}
+
+/* Table body: Zebra striping for better readability */
+.data-table tbody tr:nth-child(even) {
+  background: #fcfaf6;  /* Alternate row color */
+}
+
+/* Table row: Hover state shows which row you're looking at */
+.data-table tbody tr:hover {
+  background: #f3ebe0;  /* Highlight on hover */
+}
+
+/* Table empty state message */
+.data-table .empty-row td {
+  text-align: center;
+  font-style: italic;  /* Italic to show it's a message, not data */
+  color: var(--slate);
+}
+
+/* ========================================
+   CHARTS & DASHBOARDS
+   ======================================== */
+
+/* Grid for chart containers: Responsive columns */
+.chart-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));  /* Auto-wrap charts */
+}
+
+/* Individual chart card container */
+.chart-card {
+  border-radius: 14px;
+  border: 1px solid rgba(31, 28, 22, 0.1);
+  padding: 12px;
+  background: #fffefb;
+  min-height: 260px;  /* Minimum height for chart readability */
+}
+
+.chart-card h4 {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+}
+
+.chart-card canvas {
+  width: 100%;
+  height: 220px;  /* Fixed height for chart container */
+}
+
+/* Grid for dashboard role cards: Responsive columns */
+.dashboard-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));  /* Auto-wrap cards */
+}
+
+/* Dashboard role card: Shows metrics for User, Manager, Admin */
+.dash-card {
+  border-radius: 14px;
+  border: 1px solid rgba(31, 28, 22, 0.1);
+  padding: 14px;
+  background: #fff8ea;  /* Warm background */
+}
+
+/* Hidden dashboard (for roles not logged in) */
+.dash-card.is-hidden {
+  display: none;
+}
+
+.dash-card h4 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+}
+
+/* Individual metric in dashboard: Label and value side-by-side */
+.dash-metric {
+  display: flex;
+  justify-content: space-between;  /* Label left, value right */
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(31, 28, 22, 0.12);  /* Subtle dividers */
+}
+
+.dash-metric:last-child {
+  border-bottom: none;  /* No border on last item */
+}
+
+/* Report summary box */
+.report-summary {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #fff8ea;
+  border: 1px dashed rgba(193, 106, 43, 0.4);
+}
+
+/* Report output container */
+.report-output {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #fff8ea;
+  border: 1px dashed rgba(193, 106, 43, 0.4);
+  min-height: 60px;
+}
+
+.report-output h3 {
+  margin: 0 0 12px;
+}
+
+.report-output ul {
+  padding-left: 18px;
+  margin: 0 0 10px;
+}
+
+/* Site footer */
+.site-footer {
+  padding: 20px clamp(20px, 4vw, 64px) 40px;
+  color: rgba(31, 28, 22, 0.6);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN - Mobile Adjustments
+   ======================================== */
+/* These styles apply on screens 768px wide or smaller */
+
+@media (max-width: 768px) {
+  /* Reduce header padding on mobile */
+  .site-header {
+    padding-bottom: 28px;
+  }
+
+  /* Smaller nav button text on mobile */
+  .nav-btn {
+    font-size: 0.85rem;
+  }
+
+  /* Stack form actions vertically and stretch full width */
+  .form-actions {
+    align-items: stretch;
+  }
+
+  /* Make buttons full width on mobile */
+  .primary-btn {
+    width: 100%;
+  }
+}

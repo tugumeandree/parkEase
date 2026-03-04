@@ -1,0 +1,183 @@
+/**
+ * ========================================
+ * STYLES - FORMS
+ * ========================================
+ * 
+ * Styles for form sections, input fields, buttons, and messages.
+ * Provides consistent form experience across all pages.
+ */
+
+/* ========================================
+   FORM SECTIONS
+   ======================================== */
+
+.form-section {
+  background: var(--cloud);
+  border-radius: var(--radius);
+  padding: clamp(20px, 3vw, 32px);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--stroke);
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.form-section.is-visible {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========================================
+   FORM LAYOUT
+   ======================================== */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field.inline {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+label {
+  font-weight: 600;
+  color: var(--night);
+}
+
+/* ========================================
+   INPUT FIELDS
+   ======================================== */
+
+input,
+select {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  font-size: 0.95rem;
+  background: #fff;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid rgba(193, 106, 43, 0.35);
+  border-color: var(--copper);
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+.form-actions {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.primary-btn {
+  align-self: flex-start;
+  border: none;
+  background: var(--olive);
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 12px 20px rgba(111, 123, 58, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.primary-btn:hover,
+.primary-btn:focus-visible {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 18px 24px rgba(111, 123, 58, 0.28);
+}
+
+.ghost-btn {
+  border: 1px solid rgba(31, 28, 22, 0.2);
+  background: transparent;
+  color: var(--night);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.ghost-btn:hover,
+.ghost-btn:focus-visible {
+  background: #f6efe4;
+  transform: translateY(-1px);
+}
+
+/* ========================================
+   HINTS & VALIDATION MESSAGES
+   ======================================== */
+
+.hint {
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+.form-message {
+  margin-top: 14px;
+  font-weight: 600;
+  min-height: 20px;
+}
+
+.form-message.is-error {
+  color: #b23a3a;
+}
+
+.form-message.is-success {
+  color: #2f6b36;
+}
+
+/* ========================================
+   DATA PANELS (Result display after form submit)
+   ======================================== */
+
+.data-panel {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(31, 28, 22, 0.12);
+  background: #fff;
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.data-panel.is-visible {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.panel-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.panel-header h3 {
+  margin: 0;
+}
+
+.panel-header p {
+  margin: 0;
+  color: var(--slate);
+}

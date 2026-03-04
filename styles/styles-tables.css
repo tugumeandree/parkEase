@@ -1,0 +1,71 @@
+/**
+ * ========================================
+ * STYLES - TABLES
+ * ========================================
+ * 
+ * Styles for data table display.
+ * Includes striped rows, hover effects, and responsive scrolling.
+ */
+
+/* ========================================
+   TABLE CONTAINER & RESPONSIVE SCROLLING
+   ======================================== */
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+/* ========================================
+   TABLE STRUCTURE
+   ======================================== */
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+.data-table caption {
+  text-align: left;
+  padding-bottom: 8px;
+  font-weight: 600;
+}
+
+.data-table th,
+.data-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(31, 28, 22, 0.08);
+  font-size: 0.92rem;
+}
+
+/* ========================================
+   TABLE HEADER (Sticky styling)
+   ======================================== */
+
+.data-table thead th {
+  background: #f7f1e7;
+  color: #3a3229;
+}
+
+/* ========================================
+   TABLE BODY (Striped rows for readability)
+   ======================================== */
+
+.data-table tbody tr:nth-child(even) {
+  background: #fcfaf6;
+}
+
+.data-table tbody tr:hover {
+  background: #f3ebe0;
+}
+
+/* ========================================
+   EMPTY STATE
+   ======================================== */
+
+.data-table .empty-row td {
+  text-align: center;
+  font-style: italic;
+  color: var(--slate);
+}

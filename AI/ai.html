@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ParkEase + Hugging Face AI Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f4f4f4; }
+    #aiSummary, #aiSentiment, #aiVehicle { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h1>ParkEase AI Integration Demo</h1>
+
+  <h2>Receipts</h2>
+  <table>
+    <thead>
+      <tr><th>Receipt No</th><th>Plate</th><th>Fee</th><th>Timestamp</th></tr>
+    </thead>
+    <tbody id="receiptsTableBody"></tbody>
+  </table>
+  <button id="summarizeBtn">Summarize Receipts with AI</button>
+  <div id="aiSummary"></div>
+
+  <h2>Customer Feedback</h2>
+  <ul id="feedbackList"></ul>
+  <button id="sentimentBtn">Analyze Feedback Sentiment</button>
+  <div id="aiSentiment"></div>
+
+  <h2>Vehicle Type Classification</h2>
+  <input type="text" id="vehicleDesc" placeholder="Enter vehicle description">
+  <button id="classifyBtn">Classify Vehicle Type</button>
+  <div id="aiVehicle"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+/**
+ * ========================================
+ * STYLES - DASHBOARDS
+ * ========================================
+ * 
+ * Styles for role-based dashboards.
+ * Shows different metrics for Attendant, Manager, Admin.
+ */
+
+/* ========================================
+   DASHBOARD CONTAINERS
+   ======================================== */
+
+.dashboard-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.dash-card {
+  border-radius: 14px;
+  border: 1px solid rgba(31, 28, 22, 0.1);
+  padding: 14px;
+  background: #fff8ea;
+}
+
+.dash-card.is-hidden {
+  display: none;
+}
+
+.dash-card h4 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+}
+
+/* ========================================
+   DASHBOARD METRICS (Key statistics)
+   ======================================== */
+
+.dash-metric {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(31, 28, 22, 0.12);
+}
+
+.dash-metric:last-child {
+  border-bottom: none;
+}
+
+/* ========================================
+   REPORT SUMMARY & OUTPUT
+   ======================================== */
+
+.report-summary {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #fff8ea;
+  border: 1px dashed rgba(193, 106, 43, 0.4);
+}
+
+.report-output {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #fff8ea;
+  border: 1px dashed rgba(193, 106, 43, 0.4);
+  min-height: 60px;
+}
+
+.report-output h3 {
+  margin: 0 0 12px;
+}
+
+.report-output ul {
+  padding-left: 18px;
+  margin: 0 0 10px;
+}
